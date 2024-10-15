@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  fullName String
+  picture  String?
+  password String?
+
+  companies  Company[]
+  phoneLists PhoneList[]
+  soundFiles SoundFile[]
+
+  createdAt DateTime @default(now())
+  updatetAt DateTime @updatedAt
+}
+
+model Company {
+  id           Int      @id @default(autoincrement())
+  name         String
+  companyLimit Int
+  dayLimit     Int
+  status       Int
+  startTime    DateTime
+  endTime      DateTime
+  days         Int //TODO: On Postgresql make it JSON type
+  reaction     Int //TODO: On Postgresql make it JSON type
+
+  soundFileId Int
+  soundFile   SoundFile @relation(fields: [soundFileId], references: [id])
+
+  phonesId  Int
+  phoneList PhoneList @relation(fields: [phonesId], references: [id])
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatetAt DateTime @updatedAt
+}
+
+model PhoneList {
+  id     Int    @id @default(autoincrement())
+  name   String
+  phones Int //TODO: On Postgresql make it JSON type
+
+  companies Company[]
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatetAt DateTime @updatedAt
+}
+
+model SoundFile {
+  id       Int    @id @default(autoincrement())
+  name     String
+  filePath String
+
+  companies Company[]
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatetAt DateTime @updatedAt
+}

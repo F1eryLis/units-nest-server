@@ -1,0 +1,147 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Company {
+  id: Int!
+  name: String!
+  companyLimit: Int!
+  dayLimit: Int!
+  status: Int!
+  startTime: DateTime!
+  endTime: DateTime!
+  days: Int!
+  reaction: Int!
+  soundFileId: Int!
+  phonesId: Int!
+  userId: Int!
+  createdAt: DateTime!
+  updatetAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PhoneList {
+  id: Int!
+  name: String!
+  phones: Float!
+  companies: [Company!]!
+  userId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SoundFile {
+  id: Int!
+  name: String!
+  filePath: String!
+  companies: [Company!]!
+  userId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type User {
+  id: Int!
+  email: String!
+  fullName: String!
+  picture: String
+  companies: [Company!]!
+  phoneLists: [PhoneList!]!
+  soundFiles: [SoundFile!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  companies: [Company!]!
+  company(id: Int!): Company!
+  users: [User!]!
+  user(id: Int!): User!
+  soundfiles: [SoundFile!]!
+  soundfile(id: Int!): SoundFile!
+  phonelists: [PhoneList!]!
+  phonelist(id: Int!): PhoneList!
+}
+
+type Mutation {
+  createCompany(createCompanyInput: CreateCompanyInput!): Company!
+  updateCompany(updateCompanyInput: UpdateCompanyInput!): Company!
+  removeCompany(id: Int!): Company!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createSoundfile(createSoundfileInput: CreateSoundfileInput!): SoundFile!
+  updateSoundfile(updateSoundfileInput: UpdateSoundfileInput!): SoundFile!
+  removeSoundfile(id: Int!): SoundFile!
+  createPhonelist(createPhonelistInput: CreatePhonelistInput!): PhoneList!
+  updatePhonelist(updatePhonelistInput: UpdatePhonelistInput!): PhoneList!
+  removePhonelist(id: Int!): PhoneList!
+}
+
+input CreateCompanyInput {
+  name: String!
+  companyLimit: Int!
+  dayLimit: Int!
+  status: Int!
+  startTime: DateTime!
+  endTime: DateTime!
+  days: Int!
+  reaction: Int!
+  soundFileId: Int!
+  phonesId: Int!
+  userId: Int!
+}
+
+input UpdateCompanyInput {
+  name: String
+  companyLimit: Int
+  dayLimit: Int
+  status: Int
+  startTime: DateTime
+  endTime: DateTime
+  days: Int
+  reaction: Int
+  soundFileId: Int
+  phonesId: Int
+  userId: Int
+  id: Int!
+}
+
+input CreateUserInput {
+  email: String!
+  fullName: String!
+  picture: String
+}
+
+input UpdateUserInput {
+  email: String
+  fullName: String
+  picture: String
+  id: Int!
+}
+
+input CreateSoundfileInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateSoundfileInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreatePhonelistInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePhonelistInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
