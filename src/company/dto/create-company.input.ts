@@ -20,11 +20,11 @@ export class CreateCompanyInput {
   @Field()
   endTime: Date;
 
-  @Field(() => Int)
-  days: number; //TODO: On Postgresql make it JSON type
+  @Field(() => [Int], { nullable: 'itemsAndList' })
+  days: number[]; //TODO: On Postgresql make it JSON type
 
-  @Field(() => Int)
-  reaction: number; //TODO: On Postgresql make it JSON type
+  @Field(() => [Int], { nullable: 'itemsAndList' })
+  reaction: number[]; //TODO: On Postgresql make it JSON type
 
   @Field(() => Int)
   soundFileId: number;

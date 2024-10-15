@@ -6,11 +6,8 @@ export class CreatePhonelistInput {
   @Field(() => String, { description: 'Name of the phone list' })
   name: string;
   
-  @Field(() => Int, { description: 'List of phone numbers' })
-  phones: number; // TODO: On Postgresql make it JSON type
-
-  @Field(() => [Company], { nullable: true, description: 'Companies associated with the phone list' })
-  companies: Company[];
+  @Field(() => [Int], { description: 'List of phone numbers' })
+  phones: number[]; // Changed to JSON type for PostgreSQL
   
   @Field(() => Int, { description: 'User ID associated with the phone list' })
   userId: number;

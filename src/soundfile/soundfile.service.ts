@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSoundfileInput } from './dto/create-soundfile.input';
 import { UpdateSoundfileInput } from './dto/update-soundfile.input';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class SoundfileService {
-  create(createSoundfileInput: CreateSoundfileInput) {
-    return 'This action adds a new soundfile';
+  constructor(private prisma: PrismaService) { }
+
+  async create(createSoundfileInput: CreateSoundfileInput) {
+    return await this.prisma.soundFile.create({
+      data: {
+        ...createSoundfileInput,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all soundfile`;
+  async findAll() {
+    return await this.prisma.soundFile.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} soundfile`;
+  async findOne(id: number) {
+    return await this.prisma.soundFile.findUnique({ where: { id } });
   }
 
-  update(id: number, updateSoundfileInput: UpdateSoundfileInput) {
-    return `This action updates a #${id} soundfile`;
+  async update(id: number, updateSoundfileInput: UpdateSoundfileInput) {
+    return await this.prisma.soundFile.update({
+      where: { id },
+      data: {
+        ...updateSoundfileInput,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} soundfile`;
+  async remove(id: number) {
+    return await this.prisma.soundFile.delete({ where: { id } });
   }
 }

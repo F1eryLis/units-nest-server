@@ -24,11 +24,11 @@ export class UpdateCompanyInput extends PartialType(CreateCompanyInput) {
   @Field({ nullable: true })
   endTime?: Date;
 
-  @Field(() => Int, { nullable: true })
-  days?: number; //TODO: On Postgresql make it JSON type
+  @Field(() => [Int], { nullable: true })
+  days?: number[]; //TODO: On Postgresql make it JSON type
 
-  @Field(() => Int, { nullable: true })
-  reaction?: number; //TODO: On Postgresql make it JSON type
+  @Field(() => [Int], { nullable: true })
+  reaction?: number[]; //TODO: On Postgresql make it JSON type
 
   @Field(() => Int, { nullable: true })
   soundFileId?: number;

@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Company } from 'src/company/entities/company.entity';
 
 @ObjectType()
 export class SoundFile {
@@ -11,9 +10,6 @@ export class SoundFile {
 
   @Field()
   filePath: string;
-
-  @Field(() => [Company], { nullable: true })
-  companies?: Company[];
 
   @Field(() => Int)
   userId: number;

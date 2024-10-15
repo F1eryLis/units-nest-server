@@ -12,57 +12,27 @@ export class CompanyService {
       data: {
         ...createCompanyInput
       },
-      include: {
-        phoneList: true,
-        soundFile: true,
-        user: true,
-      }
     });
   }
 
-  findAll() {
-    return this.prisma.company.findMany({
-      include: {
-        phoneList: true,
-        soundFile: true,
-        user: true,
-      }
-    });
+  async findAll() {
+    return await this.prisma.company.findMany();
   }
 
-  findOne(id: number) {
-    return this.prisma.company.findUnique({
-      where: { id },
-      include: {
-        phoneList: true,
-        soundFile: true,
-        user: true,
-      }
-    });
+  async findOne(id: number) {
+    return await this.prisma.company.findUnique({ where: { id }, });
   }
 
-  update(id: number, updateCompanyInput: UpdateCompanyInput) {
-    return this.prisma.company.update({
+  async update(id: number, updateCompanyInput: UpdateCompanyInput) {
+    return await this.prisma.company.update({
       where: { id },
       data: {
         ...updateCompanyInput
       },
-      include: {
-        phoneList: true,
-        soundFile: true,
-        user: true,
-      }
     });
   }
 
-  remove(id: number) {
-    return this.prisma.company.delete({
-      where: { id },
-      include: {
-        phoneList: true,
-        soundFile: true,
-        user: true,
-      }
-    });
+  async remove(id: number) {
+    return await this.prisma.company.delete({ where: { id } });
   }
 }

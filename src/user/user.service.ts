@@ -9,44 +9,39 @@ export class UserService {
 
   async create(createUserInput: CreateUserInput) {
     return await this.prisma.user.create({
-      data: createUserInput,
-      include: {
-        companies: true,
-        phoneLists: true,
-        soundFiles: true,
+      data: {
+        ...createUserInput,
       },
     });
   }
 
   async findAll() {
-    return await this.prisma.user.findMany({
-      include: {
-        companies: true,
-        phoneLists: true,
-        soundFiles: true,
-      },
-    });
+    return await this.prisma.user.findMany();
+  }
+
+  async getUserCompanies(userId: number) {
+    return await this.prisma.company.findMany({ where: { userId: userId } });
+  }
+
+  async getUserPhoneLists(userId: number) {
+    return await this.prisma.phoneList.findMany({ where: { userId: userId } });
+  }
+
+  async getUserSoundFiles(userId: number) {
+    return await this.prisma.soundFile.findMany({ where: { userId: userId } });
   }
 
   async findOne(id: number) {
     return await this.prisma.user.findUnique({
       where: { id },
-      include: {
-        companies: true,
-        phoneLists: true,
-        soundFiles: true,
-      },
     });
   }
 
   async update(id: number, updateUserInput: UpdateUserInput) {
     return await this.prisma.user.update({
       where: { id },
-      data: updateUserInput,
-      include: {
-        companies: true,
-        phoneLists: true,
-        soundFiles: true,
+      data: {
+        ...updateUserInput,
       },
     });
   }
@@ -54,11 +49,6 @@ export class UserService {
   async remove(id: number) {
     return await this.prisma.user.delete({
       where: { id },
-      include: {
-        companies: true,
-        phoneLists: true,
-        soundFiles: true,
-      },
     });
   }
 }

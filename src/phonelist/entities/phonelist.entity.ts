@@ -9,11 +9,8 @@ export class PhoneList {
   @Field()
   name: string;
 
-  @Field()
-  phones: number; //TODO: Postgresql JSON
-
-  @Field(() => [Company], { nullable: true })
-  companies?: Company[];
+  @Field(() => [Int])
+  phones: number[]; //TODO: Postgresql JSON
 
   @Field(() => Int)
   userId: number;

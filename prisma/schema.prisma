@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -33,8 +33,8 @@ model Company {
   status       Int
   startTime    DateTime
   endTime      DateTime
-  days         Int //TODO: On Postgresql make it JSON type
-  reaction     Int //TODO: On Postgresql make it JSON type
+  days         Int[] //TODO: On Postgresql make it JSON type
+  reaction     Int[] //TODO: On Postgresql make it JSON type
 
   soundFileId Int
   soundFile   SoundFile @relation(fields: [soundFileId], references: [id])
@@ -52,7 +52,7 @@ model Company {
 model PhoneList {
   id     Int    @id @default(autoincrement())
   name   String
-  phones Int //TODO: On Postgresql make it JSON type
+  phones Int[] //TODO: On Postgresql make it JSON type
 
   companies Company[]
   userId    Int
