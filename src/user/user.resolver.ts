@@ -9,7 +9,7 @@ import { SoundFile } from 'src/soundfile/entities/soundfile.entity';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
@@ -49,5 +49,12 @@ export class UserResolver {
   @ResolveField('soundFiles', () => [SoundFile])
   soundFiles(@Parent() user: User) {
     return this.userService.getUserSoundFiles(user.id);
+  }
+
+  @ResolveField('soundFile', () => SoundFile)
+  async soundFile(@Parent() user: User, @Args('id', { type: () => Int }) soundFileId: number) {
+    return this.userService.getUserSoundFiles(user.id).then(soundFiles => 
+      soundFiles.find(soundFile => soundFile.id === soundFileId)
+    );
   }
 }

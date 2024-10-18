@@ -34,6 +34,7 @@ type User {
   companies: [Company!]!
   phoneLists: [PhoneList!]!
   soundFiles: [SoundFile!]!
+  soundFile(id: Int!): SoundFile!
 }
 
 type PhoneList {

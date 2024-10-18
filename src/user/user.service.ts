@@ -27,6 +27,10 @@ export class UserService {
     return await this.prisma.phoneList.findMany({ where: { userId: userId } });
   }
 
+  async getUserPhoneListById(userId: number, phoneListId: number) {
+    return await this.prisma.phoneList.findFirst({ where: { userId: userId, id: phoneListId } });
+  }
+
   async getUserSoundFiles(userId: number) {
     return await this.prisma.soundFile.findMany({ where: { userId: userId } });
   }
