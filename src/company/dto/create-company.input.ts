@@ -26,11 +26,11 @@ export class CreateCompanyInput {
   @Field(() => [Int], { nullable: 'itemsAndList' })
   reaction: number[]; //TODO: On Postgresql make it JSON type
 
-  @Field(() => Int)
-  soundFileId: number;
+  @Field(() => Int, { nullable: true })
+  soundFileId?: number;
 
-  @Field(() => Int)
-  phonesId: number;
+  @Field(() => Int, { nullable: true })
+  phonesId?: number;
 
   @Field(() => Int)
   userId: number;

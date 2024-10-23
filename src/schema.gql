@@ -40,7 +40,7 @@ type User {
 type PhoneList {
   id: Int!
   name: String!
-  phones: [Int!]!
+  phones: [String!]!
   userId: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -90,8 +90,8 @@ input CreateCompanyInput {
   endTime: DateTime!
   days: [Int]
   reaction: [Int]
-  soundFileId: Int!
-  phonesId: Int!
+  soundFileId: Int
+  phonesId: Int
   userId: Int!
 }
 
@@ -141,7 +141,7 @@ input CreatePhonelistInput {
   name: String!
 
   """List of phone numbers"""
-  phones: [Int!]!
+  phones: [String!]!
 
   """User ID associated with the phone list"""
   userId: Int!
@@ -149,7 +149,7 @@ input CreatePhonelistInput {
 
 input UpdatePhonelistInput {
   name: String
-  phones: [Int!]
+  phones: [String]
   userId: Int
   id: Int!
 }

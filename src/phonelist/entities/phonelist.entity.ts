@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Company } from 'src/company/entities/company.entity';
 
 @ObjectType()
 export class PhoneList {
@@ -9,8 +8,8 @@ export class PhoneList {
   @Field()
   name: string;
 
-  @Field(() => [Int])
-  phones: number[]; //TODO: Postgresql JSON
+  @Field(() => [String])
+  phones: string[]; //TODO: Postgresql JSON
 
   @Field(() => Int)
   userId: number;

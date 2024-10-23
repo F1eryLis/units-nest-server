@@ -3,11 +3,13 @@ import { PhonelistService } from './phonelist.service';
 import { PhoneList } from './entities/phonelist.entity';
 import { CreatePhonelistInput } from './dto/create-phonelist.input';
 import { UpdatePhonelistInput } from './dto/update-phonelist.input';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => PhoneList)
 export class PhonelistResolver {
   constructor(private readonly phonelistService: PhonelistService) {}
 
+  // @UseGuards()
   @Mutation(() => PhoneList)
   createPhonelist(@Args('createPhonelistInput') createPhonelistInput: CreatePhonelistInput) {
     return this.phonelistService.create(createPhonelistInput);
