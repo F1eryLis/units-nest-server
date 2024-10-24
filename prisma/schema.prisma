@@ -50,7 +50,7 @@ model Company {
 }
 
 model PhoneList {
-  id     Int    @id @default(autoincrement())
+  id     Int      @id @default(autoincrement())
   name   String
   phones String[] //TODO: On Postgresql make it JSON type
 
@@ -73,4 +73,24 @@ model SoundFile {
 
   createdAt DateTime @default(now())
   updatetAt DateTime @updatedAt
+}
+
+model KanbanCard {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  companyName String?
+  phoneNumber String?
+  comment     String?
+  task        String?
+  dateTime    DateTime?
+
+  columnId Int
+  column   KanbanColumn @relation(fields: [columnId], references: [id])
+}
+
+model KanbanColumn {
+  id         Int          @id @default(autoincrement())
+  title      String
+  titleColor String?
+  cards      KanbanCard[]
 }

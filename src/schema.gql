@@ -55,6 +55,24 @@ type SoundFile {
   updatedAt: DateTime!
 }
 
+type KanbanCard {
+  id: Int!
+  name: String!
+  companyName: String!
+  phoneNumber: String!
+  comment: String!
+  task: String!
+  dateTime: DateTime!
+  columnId: Int!
+}
+
+type KanbanColumn {
+  id: Int!
+  title: String!
+  titleColor: String!
+  kanbanCards: [KanbanCard!]!
+}
+
 type Query {
   companies: [Company!]!
   company(id: Int!): Company!
@@ -64,6 +82,10 @@ type Query {
   soundfile(id: Int!): SoundFile!
   phonelists: [PhoneList!]!
   phonelist(id: Int!): PhoneList!
+  kanbanCards: [KanbanCard!]!
+  kanbanCard(id: Int!): KanbanCard!
+  kanbanColumns: [KanbanColumn!]!
+  kanbanColumn(id: Int!): KanbanColumn!
 }
 
 type Mutation {
@@ -79,6 +101,12 @@ type Mutation {
   createPhonelist(createPhonelistInput: CreatePhonelistInput!): PhoneList!
   updatePhonelist(updatePhonelistInput: UpdatePhonelistInput!): PhoneList!
   removePhonelist(id: Int!): PhoneList!
+  createKanbanCard(createKanbanCardInput: CreateKanbanCardInput!): KanbanCard!
+  updateKanbanCard(updateKanbanCardInput: UpdateKanbanCardInput!): KanbanCard!
+  removeKanbanCard(id: Int!): KanbanCard!
+  createKanbanColumn(createKanbanColumnInput: CreateKanbanColumnInput!): KanbanColumn!
+  updateKanbanColumn(updateKanbanColumnInput: UpdateKanbanColumnInput!): KanbanColumn!
+  removeKanbanColumn(id: Int!): KanbanColumn!
 }
 
 input CreateCompanyInput {
@@ -151,5 +179,37 @@ input UpdatePhonelistInput {
   name: String
   phones: [String]
   userId: Int
+  id: Int!
+}
+
+input CreateKanbanCardInput {
+  name: String
+  companyName: String
+  phoneNumber: String!
+  comment: String
+  task: String
+  dateTime: DateTime
+  columnId: Int!
+}
+
+input UpdateKanbanCardInput {
+  name: String
+  companyName: String
+  phoneNumber: String
+  comment: String
+  task: String
+  dateTime: DateTime
+  columnId: Int
+  id: Int!
+}
+
+input CreateKanbanColumnInput {
+  title: String!
+  titleColor: String
+}
+
+input UpdateKanbanColumnInput {
+  title: String
+  titleColor: String
   id: Int!
 }
