@@ -3,6 +3,9 @@ import { KanbanCardService } from './kanban-card.service';
 import { KanbanCard } from './entities/kanban-card.entity';
 import { CreateKanbanCardInput } from './dto/create-kanban-card.input';
 import { UpdateKanbanCardInput } from './dto/update-kanban-card.input';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubSub = new PubSub();
 
 @Resolver(() => KanbanCard)
 export class KanbanCardResolver {
@@ -25,7 +28,9 @@ export class KanbanCardResolver {
 
   @Mutation(() => KanbanCard)
   updateKanbanCard(@Args('updateKanbanCardInput') updateKanbanCardInput: UpdateKanbanCardInput) {
-    return this.kanbanCardService.update(updateKanbanCardInput.id, updateKanbanCardInput);
+    const newCard = this.kanbanCardService.update(updateKanbanCardInput.id, updateKanbanCardInput);
+    pubSub.publish('kanbanCardAdded', { kanbanCardAdded: newCard });
+    return newCard;
   }
 
   @Mutation(() => KanbanCard)

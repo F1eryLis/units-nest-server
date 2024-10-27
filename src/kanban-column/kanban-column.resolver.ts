@@ -1,10 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent, Subscription } from '@nestjs/graphql';
 import { KanbanColumnService } from './kanban-column.service';
 import { KanbanColumn } from './entities/kanban-column.entity';
 import { CreateKanbanColumnInput } from './dto/create-kanban-column.input';
 import { UpdateKanbanColumnInput } from './dto/update-kanban-column.input';
 import { KanbanCardService } from 'src/kanban-card/kanban-card.service';
 import { KanbanCard } from 'src/kanban-card/entities/kanban-card.entity';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubSub = new PubSub();
 
 @Resolver(() => KanbanColumn)
 export class KanbanColumnResolver {
@@ -38,5 +41,12 @@ export class KanbanColumnResolver {
   @ResolveField('kanbanCards', () => [KanbanCard])
   kanbanCards(@Parent() column: KanbanColumn) {
     return this.kanbanColumnService.getKanbanCardsById(column.id);
+  }
+
+  @Subscription(() => KanbanCard)
+  kanbanCardAdded() {
+    console.log('yes');
+    
+    return pubSub.asyncIterator('kanbanCardAdded');
   }
 }

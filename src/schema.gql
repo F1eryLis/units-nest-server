@@ -213,3 +213,7 @@ input UpdateKanbanColumnInput {
   titleColor: String
   id: Int!
 }
+
+type Subscription {
+  kanbanCardAdded: KanbanCard!
+}
