@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { KanbanCardService } from './kanban-card.service';
 import { KanbanCard } from './entities/kanban-card.entity';
 import { CreateKanbanCardInput } from './dto/create-kanban-card.input';
@@ -9,11 +9,18 @@ const pubSub = new PubSub();
 
 @Resolver(() => KanbanCard)
 export class KanbanCardResolver {
-  constructor(private readonly kanbanCardService: KanbanCardService) {}
+  constructor(private readonly kanbanCardService: KanbanCardService) { }
 
   @Mutation(() => KanbanCard)
-  createKanbanCard(@Args('createKanbanCardInput') createKanbanCardInput: CreateKanbanCardInput) {
-    return this.kanbanCardService.create(createKanbanCardInput);
+  async createKanbanCard(@Args('createKanbanCardInput') createKanbanCardInput: CreateKanbanCardInput) {
+    const newCard = await this.kanbanCardService.create(createKanbanCardInput);
+    await pubSub.publish('kanbanCardCreate', { kanbanCardCreate: newCard });
+    return newCard;
+  }
+
+  @Subscription(() => KanbanCard)
+  kanbanCardCreate() {
+    return pubSub.asyncIterator('kanbanCardCreate');
   }
 
   @Query(() => [KanbanCard], { name: 'kanbanCards' })
@@ -27,10 +34,23 @@ export class KanbanCardResolver {
   }
 
   @Mutation(() => KanbanCard)
-  updateKanbanCard(@Args('updateKanbanCardInput') updateKanbanCardInput: UpdateKanbanCardInput) {
-    const newCard = this.kanbanCardService.update(updateKanbanCardInput.id, updateKanbanCardInput);
-    pubSub.publish('kanbanCardAdded', { kanbanCardAdded: newCard });
+  async updateKanbanCard(@Args('updateKanbanCardInput') updateKanbanCardInput: UpdateKanbanCardInput) {
+    const newCard = await this.kanbanCardService.update(updateKanbanCardInput.id, updateKanbanCardInput);
+    await pubSub.publish('kanbanCardUpdated', { kanbanCardUpdated: newCard });
     return newCard;
+  }
+
+  @Subscription(() => KanbanCard, {
+    filter: (payload, variables) => {
+      if (!payload || !payload.kanbanCardUpdated) {
+        console.error('Payload structure is invalid:', payload);
+        return false;
+      }
+      return payload.kanbanCardUpdated.columnId === variables.columnId
+    }
+  })
+  kanbanCardUpdated(@Args('columnId', { type: () => Int }) columnId: number) {
+    return pubSub.asyncIterator('kanbanCardUpdated');
   }
 
   @Mutation(() => KanbanCard)

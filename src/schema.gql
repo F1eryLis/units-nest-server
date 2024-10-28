@@ -215,5 +215,6 @@ input UpdateKanbanColumnInput {
 }
 
 type Subscription {
-  kanbanCardAdded: KanbanCard!
+  kanbanCardCreate: KanbanCard!
+  kanbanCardUpdated(columnId: Int!): KanbanCard!
 }
